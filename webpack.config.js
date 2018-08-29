@@ -1,41 +1,38 @@
 const webpack = require('webpack')
 const path = require('path')
 
-const APP_DIR = path.resolve(__dirname, './src');
+const SOURCE_DIR = path.resolve(__dirname, './src');
+const BUILD_DIR = path.resolve(__dirname, './build');
 
 module.exports = {
-    entry: {
-        app: `${APP_DIR}/index.js`,
+    entry: `${SOURCE_DIR}/index.ts`,
+
+    devServer: {
+        contentBase: BUILD_DIR,
+        compress: true,
+        port: 9000
     },
+
     output: {
-        publicPath: '/',
-        chunkFilename: '[name].[chunkhash].js',
-        filename: '[name].[chunkhash].js'
+        path: BUILD_DIR,
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].chunk.js'
     },
+
     resolve: {
-        extensions: ['.js'],
-        modules: [ APP_DIR ]
+        extensions: ['.js', '.ts']
     },
+
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.ts$/,
                 exclude: /node_modules/,
-                include : APP_DIR,
+                include : SOURCE_DIR,
                 use: {
-                    loader: 'babel-loader'
+                    loader: 'ts-loader'
                 }
             }
         ]
     },
-    plugins: [
-        new webpack.HashedModuleIdsPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            filename: 'vendor.[chunkhash].js'
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest'
-        })
-    ]
 }

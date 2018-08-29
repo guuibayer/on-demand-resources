@@ -1,1 +1,7 @@
 on-demand-resources.iml
+
+yarn.lock
+package-lock.json
+
+node_modules
+build/main.bundle.js
