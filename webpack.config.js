@@ -5,34 +5,39 @@ const SOURCE_DIR = path.resolve(__dirname, './src');
 const BUILD_DIR = path.resolve(__dirname, './build');
 
 module.exports = {
-    entry: `${SOURCE_DIR}/index.ts`,
+  entry: `${SOURCE_DIR}/index.ts`,
 
-    devServer: {
-        contentBase: BUILD_DIR,
-        compress: true,
-        port: 9000
-    },
+  devServer: {
+    contentBase: BUILD_DIR,
+    compress: false,
+    port: 9000,
+    hot: true
+  },
 
-    output: {
-        path: BUILD_DIR,
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].chunk.js'
-    },
+  output: {
+    path: BUILD_DIR,
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.js'
+  },
 
-    resolve: {
-        extensions: ['.js', '.ts']
-    },
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
 
-    module: {
-        rules: [
-            {
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                include : SOURCE_DIR,
-                use: {
-                    loader: 'ts-loader'
-                }
-            }
-        ]
-    },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        include : SOURCE_DIR,
+        use: {
+          loader: 'ts-loader'
+        }
+      }
+    ]
+  }
 }

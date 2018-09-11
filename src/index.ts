@@ -1,3 +1,11 @@
+import Inject from './Inject'
+import Field from './Field'
+
+Inject.execute([
+  Field.NAME,
+  Field.CPF
+])
+
 const button = document.querySelector('#button')
 
 button.addEventListener('click', async () => {
